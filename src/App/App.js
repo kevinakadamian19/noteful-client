@@ -5,6 +5,8 @@ import NoteListNav from '../NoteListNav/NoteListNav';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
+import AddFolder from '../AddFolder/AddFolder';
+import AddNote from '../AddNote/AddNote';
 import dummyStore from '../dummy-store';
 import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './App.css';
@@ -16,8 +18,22 @@ class App extends Component {
     };
 
     componentDidMount() {
-        // fake date loading from API call
-        setTimeout(() => this.setState(dummyStore), 600);
+        Promise.all([
+            fetch(`${dummyStore}/notes`),
+            fetch(`${dummyStore}/folders`)
+        ])
+        .then(([notesRes, foldersRes]) => {
+            if(!notesRes.ok) {
+                return notesRes.json().then(e => Promise.reject(e))
+            }
+            if(!foldersRes.ok) {
+                return foldersRes.json().then(e => Promise.reject(e))
+            }
+            return Promise.all([
+                notesRes.json(),
+                foldersRes.json()
+            ])
+        })
     }
 
     renderNavRoutes() {
@@ -47,8 +63,19 @@ class App extends Component {
                         return <NotePageNav {...routeProps} folder={folder} />;
                     }}
                 />
-                <Route path="/add-folder" component={NotePageNav} />
-                <Route path="/add-note" component={NotePageNav} />
+                <Route 
+                    path="/add-folder"
+                    render={routeProps => {
+                        const {noteId} = routeProps.match.params;
+                        const note = findNote(notes, noteId) || {};
+                        const folder = findFolder(folders, note.folderId);
+                        return <AddFolder {...routeProps} folder={folder} />
+                    }}
+                />
+                <Route 
+                    path="/add-note" 
+                    component={AddNote} 
+                />
             </>
         );
     }

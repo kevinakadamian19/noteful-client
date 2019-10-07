@@ -1,5 +1,9 @@
 import React, { Component } from "react";
+import CircleButton from '../CircleButton/CircleButton'
 import ValidationError from "../ValidationError";
+import NotefulForm from '../NotefulForm/NotefulForm';
+import dummyStore from '../dummy-store'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class AddFolder extends Component {
   constructor(props) {
@@ -19,6 +23,22 @@ class AddFolder extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const { name } = this.state;
+    fetch(`${dummyStore}/folders`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(name),
+    })
+    .then(res => {
+      if(!res.ok) {
+        return res.json().then(e => Promise.reject(e))
+      }
+      return res.json()
+    })
+    .then(name => {
+      this.context.addFolder(name)
+    })
   }
 
   validateName() {
@@ -33,36 +53,29 @@ class AddFolder extends Component {
   render() {
     const nameError = this.validateName();
     return (
-      <form className="registration" onSubmit={e => this.handleSubmit(e)}>
+      <NotefulForm onSubmit={e => this.handleSubmit(e)}>
         <h2>Add Folder</h2>
-        <div className="registration__hint">* required field</div>
-        <div className="form-group">
-          <label htmlFor="folder_name">Name *</label>
+        <div className="field">
+          <label htmlFor="folder_name">Name</label>
           <input
             type="text"
-            className="folder_name"
             name="folder_name"
             id="folder_name"
             onChange={e => this.updateName(e.target.value)}
           />
           {this.state.name.touched && <ValidationError message={nameError} />}
         </div>
-
-        <div className="NoteListNav__button-wrapper">
-          <button type="reset" className="registration__button">
-            Cancel
-          </button>
-          <button
+          <CircleButton
+            tag="button"
             type="submit"
-            className="add_folder__button"
+            className="NotePageNav_back-button"
             disabled={
               this.validateName()
             }
           >
             Save
-          </button>
-        </div>
-      </form>
+          </CircleButton>
+      </NotefulForm>
     );
   }
 }
