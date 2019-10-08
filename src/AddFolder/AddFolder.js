@@ -2,33 +2,29 @@ import React, { Component } from "react";
 import CircleButton from '../CircleButton/CircleButton'
 import ValidationError from "../ValidationError";
 import NotefulForm from '../NotefulForm/NotefulForm';
-import dummyStore from '../dummy-store'
+import NotefulContext from '../NotefulContext';
+import config from '../config'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 class AddFolder extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: {
-        value: "",
-        touched: false
-      }
-    };
+  static defaultProps = {
+    history: {
+      push: () => {}
+    }
   }
-
-  updateName(name) {
-    this.setState({ name: { value: name, touched: true } });
-  }
+  static contextType = NotefulContext;
 
   handleSubmit(event) {
     event.preventDefault();
-    const { name } = this.state;
-    fetch(`${dummyStore}/folders`, {
+    const folder = {
+      name: event.target['folder-name'].value
+    }
+    fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(name),
+      body: JSON.stringify(folder),
     })
     .then(res => {
       if(!res.ok) {
@@ -36,47 +32,34 @@ class AddFolder extends Component {
       }
       return res.json()
     })
-    .then(name => {
-      this.context.addFolder(name)
+    .then(folder => {
+      this.context.addFolder(folder)
+      this.props.history.push(`/folder/${folder.id}`)
+    })
+    .catch(error => {
+      console.error({error})
     })
   }
 
-  validateName() {
-    const name = this.state.name.value.trim();
-    if (name.length === 0) {
-      return "Name is required";
-    } else if (name.length < 3) {
-      return "Name must be at least 3 characters long";
-    }
-  }
-
   render() {
-    const nameError = this.validateName();
     return (
-      <NotefulForm onSubmit={e => this.handleSubmit(e)}>
-        <h2>Add Folder</h2>
-        <div className="field">
-          <label htmlFor="folder_name">Name</label>
-          <input
-            type="text"
-            name="folder_name"
-            id="folder_name"
-            onChange={e => this.updateName(e.target.value)}
-          />
-          {this.state.name.touched && <ValidationError message={nameError} />}
-        </div>
-          <CircleButton
-            tag="button"
-            type="submit"
-            className="NotePageNav_back-button"
-            disabled={
-              this.validateName()
-            }
-          >
-            Save
-          </CircleButton>
-      </NotefulForm>
-    );
+      <section className='AddFolder'>
+        <h2>Create a folder</h2>
+        <NotefulForm onSubmit={this.handleSubmit}>
+          <div className='field'>
+            <label htmlFor='folder-name-input'>
+              Name
+            </label>
+            <input type='text' id='folder-name-input' name='folder-name' />
+          </div>
+          <div className='buttons'>
+            <button type='submit'>
+              Add folder
+            </button>
+          </div>
+        </NotefulForm>
+      </section>
+    )
   }
 }
 export default AddFolder;
