@@ -5,20 +5,32 @@ import NotefulForm from '../NotefulForm/NotefulForm';
 import NotefulContext from '../NotefulContext';
 import config from '../config'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import PropTypes from 'prop-types';
+
 
 class AddFolder extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      folder: {
+        value: '',
+        touched: false
+      }
+    };
+  }
   static defaultProps = {
     history: {
-      push: () => {}
+      push: () => { }
     }
   }
   static contextType = NotefulContext;
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault();
     const folder = {
-      name: event.target['folder-name'].value
-    }
+      name: e.target['folder-name'].value
+    };
+    console.log('folder:', folder);
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: 'POST',
       headers: {
@@ -40,20 +52,45 @@ class AddFolder extends Component {
       console.error({error})
     })
   }
+  addFolderName(folder) {
+    this.setState({folder:{value: folder, touched: true}});
+  }
+
+  validateFolderName(fieldValue) {
+    const folder = this.state.folder.value.trim();
+    if(folder.length === 0) {
+      return 'Folder name is required';
+    } else if (folder.length < 3) {
+      return 'Folder name must be at least 3 characters long';
+    }
+  }
 
   render() {
+    const folderError = this.validateFolderName();
     return (
       <section className='AddFolder'>
         <h2>Create a folder</h2>
-        <NotefulForm onSubmit={this.handleSubmit}>
+        <NotefulForm onSubmit={e => this.handleSubmit(e)}>
           <div className='field'>
             <label htmlFor='folder-name-input'>
               Name
             </label>
-            <input type='text' id='folder-name-input' name='folder-name' />
+            <input 
+              type='text' 
+              id='folder-name-input' 
+              name='folder-name'
+              onChange={e=> this.addFolderName(e.target.value)}
+              />
+            {this.state.folder.touched && (
+            <ValidationError message={folderError} />
+            )}
           </div>
           <div className='buttons'>
-            <button type='submit'>
+            <button 
+              type='submit'
+              disabled ={
+                this.validateFolderName()
+              }>
               Add folder
             </button>
           </div>
@@ -63,3 +100,7 @@ class AddFolder extends Component {
   }
 }
 export default AddFolder;
+
+AddFolder.PropTypes = {
+  value: PropTypes.string.isRequired
+};

@@ -6,8 +6,9 @@ import CircleButton from '../CircleButton/CircleButton'
 import NotefulContext from '../NotefulContext'
 import {getNotesForFolder} from '../notes-helpers'
 import './NoteListMain.css'
+import PropTypes from 'prop-types';
 
-export default class NoteListMain extends React.Component {
+class NoteListMain extends React.Component {
   static defaultProps = {
     match: {
       params: {}
@@ -16,13 +17,18 @@ export default class NoteListMain extends React.Component {
   static contextType = NotefulContext
 
   render() {
+    //Setting folderId value to selected folder
     const {folderId} = this.props.match.params
+    //setting notes value to be pulled from context
     const {notes=[]} = this.context
+    //setting notesForFolder to equal the filtered array of notes that having matching folderId
     const notesForFolder = getNotesForFolder(notes, folderId)
     return (
       <section className='NoteListMain'>
         <ul>
+          {/*For each note within array of filtered notes create list item*/}
           {notesForFolder.map(note =>
+            //List item will render Note component that has props equal to values of note within array
             <li key={note.id}>
               <Note
                 id={note.id}
@@ -32,6 +38,7 @@ export default class NoteListMain extends React.Component {
             </li>
           )}
         </ul>
+        {/*At the bottom of the list include an add-note button*/}
         <div className='NoteListMain__button-container'>
           <CircleButton
             tag={Link}
@@ -48,4 +55,9 @@ export default class NoteListMain extends React.Component {
     )
   }
   
+}
+export default NoteListMain;
+
+NoteListMain.PropTypes = {
+  folderId: PropTypes.string.isRequired
 }

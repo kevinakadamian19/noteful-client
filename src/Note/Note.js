@@ -5,22 +5,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import NotefulContext from '../NotefulContext'
 import config from '../config'
 import './Note.css'
+import PropTypes from 'prop-types'
 
 export default class Note extends React.Component {
-  static defaultProps = {
-    onDeleteNote: () => {}
-  }
-
   static contextType = NotefulContext;
 
-  handleClickDelete(event) {
-    event.preventDefault();
+  handleClickDelete= e => {
+    e.preventDefault()
     const noteId = this.props.id
     fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
-      },
+      }
     })
     .then(res => {
       if (!res.ok) {
@@ -30,7 +27,6 @@ export default class Note extends React.Component {
       })
     .then(() => {
       this.context.deleteNote(noteId)
-      // allow parent to perform extra behaviour
       this.props.onDeleteNote(noteId)
     })
     .catch(error => {
@@ -67,4 +63,9 @@ export default class Note extends React.Component {
       </div>
     )
   }
+}
+Note.PropTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  modified: PropTypes.Date
 }

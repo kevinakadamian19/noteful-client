@@ -1,7 +1,7 @@
-//This is the context to pass down props through deep components.
+
 
 import React from 'react'
-
+//This context passes the defaultProps to the lower components.
 export default React.createContext({
   notes: [],
   folders: [],
