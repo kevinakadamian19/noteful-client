@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import CircleButton from '../CircleButton/CircleButton'
 import ValidationError from "../ValidationError";
 import NotefulForm from '../NotefulForm/NotefulForm';
 import NotefulContext from '../NotefulContext';
 import config from '../config'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import PropTypes from 'prop-types';
 
 
 class AddFolder extends Component {
@@ -100,7 +97,3 @@ class AddFolder extends Component {
   }
 }
 export default AddFolder;
-
-AddFolder.PropTypes = {
-  value: PropTypes.string.isRequired
-};

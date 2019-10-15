@@ -58,6 +58,6 @@ class NoteListMain extends React.Component {
 }
 export default NoteListMain;
 
-NoteListMain.PropTypes = {
-  folderId: PropTypes.string.isRequired
+NoteListMain.propTypes = {
+  folderId: PropTypes.string
 }

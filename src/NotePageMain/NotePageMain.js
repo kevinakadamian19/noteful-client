@@ -9,11 +9,14 @@ class NotePageMain extends React.Component {
   static defaultProps = {
     match: {
       params: {}
-    }
+    },
+    history: {
+      push: () => { }
+    },
   }
   static contextType = NotefulContext;
   
-  handleDeleteNote(noteId) {
+  handleDeleteNote = noteId => {
     this.props.history.push(`/`)
   }
 
@@ -45,6 +48,6 @@ class NotePageMain extends React.Component {
 }
 
 export default NotePageMain;
-NotePageMain.PropTypes = {
-  noteId: PropTypes.string.isRequired
+NotePageMain.propTypes = {
+  noteId: PropTypes.string
 }

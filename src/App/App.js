@@ -13,11 +13,16 @@ import './App.css';
 import SubmitFormError from '../SubmitFormError/SubmitFormError';
 
 class App extends Component {
-    state = {
-        notes: [],
-        folders: []
-    };
-
+    constructor(props) {
+        super(props)
+        this.state = {
+            notes: [],
+            folders: []
+        }
+        this.handleAddFolder = this.handleAddFolder.bind(this)
+        this.handleAddNote = this.handleAddNote.bind(this)
+        this.handleDeleteNote = this.handleDeleteNote.bind(this)
+    }
     componentDidMount() {
         //from config.API_ENDPOINT fetch the notes, and folders array.
         Promise.all([
@@ -51,14 +56,14 @@ class App extends Component {
     }
     //handleDeleteNote filters updates the notes array in state
     //by filtering the array to not include the noteId that was passed in the function param 
-    handleDeleteNote = noteId =>{
+    handleDeleteNote = noteId => {
         this.setState({
             notes: this.state.notes.filter(note => note.id !== noteId)
         })
     }
     //handleAddNote updates the notes array in state 
     //by adding the note within the function's parameter
-    handleAddNote(note) {
+    handleAddNote = note => {
         this.setState({
             notes: [
                 ...this.state.notes,
@@ -68,7 +73,7 @@ class App extends Component {
     }
     //handleAddFolder updates the folders array in state
     //by adding the folder within the function's parameter
-    handleAddFolder(folder) {
+    handleAddFolder = folder => {
         this.setState({
             folders: [
                 ...this.state.folders,
@@ -80,7 +85,6 @@ class App extends Component {
     //this renders the content for the nav bar in all paths
     /*Fragment "<>" allows for all below values to be inserted into <nav> tag within return*/
     renderNavRoutes() {
-        const {notes, folders} = this.state;
         return (
             <>
                 {/*create a new array that has 2 Routes for values;
@@ -117,7 +121,6 @@ class App extends Component {
 
     renderMainRoutes() {
         //variables notes and folders are equal to this.state array
-        const {notes, folders} = this.state;
         return (
             //the <> symbol is short for React.Fragment
             <> 

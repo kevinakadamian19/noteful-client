@@ -8,6 +8,10 @@ import './Note.css'
 import PropTypes from 'prop-types'
 
 export default class Note extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleClickDelete = this.handleClickDelete.bind(this)
+  }
   static contextType = NotefulContext;
 
   handleClickDelete= e => {
@@ -27,7 +31,6 @@ export default class Note extends React.Component {
       })
     .then(() => {
       this.context.deleteNote(noteId)
-      this.props.onDeleteNote(noteId)
     })
     .catch(error => {
       console.error({ error })
@@ -64,8 +67,7 @@ export default class Note extends React.Component {
     )
   }
 }
-Note.PropTypes = {
-  id: PropTypes.string.isRequired,
+Note.propTypes = {
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  modified: PropTypes.Date
 }

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import NotefulContext from '../NotefulContext'
 import config from '../config'
-import PropTypes from 'prop-types'
 import ValidationError from '../ValidationError'
+import PropType from 'prop-types'
 
 
 class AddNote extends Component {
@@ -151,9 +151,8 @@ class AddNote extends Component {
 
 export default AddNote;
 
-AddNote.PropTypes = {
-  name: PropTypes.string.isRequired,
-  content: PropTypes.string,
-  folderId: PropTypes.string.isRequired,
-  modified: PropTypes.Date
+AddNote.propType = {
+  name: PropType.string,
+  content: PropType.string,
+  folderId: PropType.string,
 }

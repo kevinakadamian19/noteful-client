@@ -53,6 +53,6 @@ class NotePageNav extends React.Component {
 
 export default NotePageNav;
 
-NotePageNav.PropTypes = {
-  noteId: PropTypes.string.isRequired
+NotePageNav.propTypes = {
+  noteId: PropTypes.string
 }
