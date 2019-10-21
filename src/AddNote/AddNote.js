@@ -154,5 +154,5 @@ export default AddNote;
 AddNote.propType = {
   name: PropType.string,
   content: PropType.string,
-  folderId: PropType.string,
+  folderId: PropType.number,
 }

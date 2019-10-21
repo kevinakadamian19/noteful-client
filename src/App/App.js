@@ -107,12 +107,12 @@ class App extends Component {
                 />
                 {/*Renders NotePageNav component for addFolder page*/}
                 <Route 
-                    path="/add-folder"
+                    path="/api/folder"
                     component={NotePageNav}
                 />
                 {/*Renders NotePageNav component for addNote page*/}
                 <Route 
-                    path="/add-note" 
+                    path="/api/note" 
                     component={NotePageNav} 
                 />
             </>

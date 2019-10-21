@@ -33,7 +33,7 @@ class AddFolder extends Component {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(folder),
+      body: JSON.stringify(folder)
     })
     .then(res => {
       if(!res.ok) {
