@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import NotefulContext from '../NotefulContext'
 import config from '../config'
 import './Note.css'
-import PropTypes from 'prop-types'
+
 
 export default class Note extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export default class Note extends React.Component {
       if (!res.ok) {
         return res.json().then(e => Promise.reject(e))
       }
-        return res.json()
+        return;
       })
     .then(() => {
       this.context.deleteNote(noteId)
@@ -66,8 +66,4 @@ export default class Note extends React.Component {
       </div>
     )
   }
-}
-Note.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
 }

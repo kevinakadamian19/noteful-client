@@ -4,7 +4,6 @@ import CircleButton from '../CircleButton/CircleButton'
 import './NotePageNav.css'
 import NotefulContext from '../NotefulContext'
 import { findNote, findFolder } from '../notes-helpers'
-import PropTypes from 'prop-types'
 
 class NotePageNav extends React.Component {
   static defaultProps = {
@@ -26,7 +25,7 @@ class NotePageNav extends React.Component {
     //setting note variable value to filtered notes array that contain matching noteId; otherwise set empty object
     const note = findNote(notes,noteId) || {}
     //setting folder object value to filtered folders array that contain notes with matching folderId 
-    const folder = findFolder(folders, note.folderId)
+    const folder = findFolder(folders, note.folder_id)
     return (
       <div className='NotePageNav'>
         {/*Button to return to previous page*/}
@@ -53,6 +52,3 @@ class NotePageNav extends React.Component {
 
 export default NotePageNav;
 
-NotePageNav.propTypes = {
-  noteId: PropTypes.string
-}

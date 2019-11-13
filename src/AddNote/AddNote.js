@@ -3,7 +3,7 @@ import NotefulForm from '../NotefulForm/NotefulForm'
 import NotefulContext from '../NotefulContext'
 import config from '../config'
 import ValidationError from '../ValidationError'
-import PropType from 'prop-types'
+
 
 
 class AddNote extends Component {
@@ -18,7 +18,7 @@ class AddNote extends Component {
         value: '',
         touched: false
       },
-      folderId: {
+      folder_id: {
         value: '',
         touched: false
       }
@@ -36,7 +36,7 @@ class AddNote extends Component {
     const newNote = {
       name: e.target['note-name'].value,
       content: e.target['note-content'].value,
-      folderId: e.target['note-folder-id'].value,
+      folder_id: e.target['note-folder-id'].value,
       modified: new Date(),
     }
     fetch(`${config.API_ENDPOINT}/notes`, {
@@ -150,9 +150,3 @@ class AddNote extends Component {
 }
 
 export default AddNote;
-
-AddNote.propType = {
-  name: PropType.string,
-  content: PropType.string,
-  folderId: PropType.number,
-}

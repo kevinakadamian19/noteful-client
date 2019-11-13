@@ -6,7 +6,7 @@ import CircleButton from '../CircleButton/CircleButton'
 import NotefulContext from '../NotefulContext'
 import {getNotesForFolder} from '../notes-helpers'
 import './NoteListMain.css'
-import PropTypes from 'prop-types';
+
 
 class NoteListMain extends React.Component {
   static defaultProps = {
@@ -57,7 +57,3 @@ class NoteListMain extends React.Component {
   
 }
 export default NoteListMain;
-
-NoteListMain.propTypes = {
-  folderId: PropTypes.number
-}
