@@ -17,9 +17,7 @@ class NoteListMain extends React.Component {
   static contextType = NotefulContext
 
   render() {
-    //Setting folderId value to selected folder
     const {folderId} = this.props.match.params
-    //setting notes value to be pulled from context
     const {notes=[]} = this.context
     //setting notesForFolder to equal the filtered array of notes that having matching folderId
     const notesForFolder = getNotesForFolder(notes, folderId)
