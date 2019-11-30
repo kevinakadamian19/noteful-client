@@ -19,7 +19,6 @@ class NoteListMain extends React.Component {
   render() {
     const {folderId} = this.props.match.params
     const {notes=[]} = this.context
-    //setting notesForFolder to equal the filtered array of notes that having matching folderId
     const notesForFolder = getNotesForFolder(notes, folderId)
     return (
       <section className='NoteListMain'>
