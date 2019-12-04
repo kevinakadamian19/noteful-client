@@ -88,7 +88,6 @@ class AddNote extends Component {
 
   render() {
     const { folders=[] } = this.context
-    console.log(folders)
     const nameError = this.validateNoteName();
     const contentError = this.validateNoteContent();
     return (

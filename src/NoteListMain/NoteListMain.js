@@ -23,9 +23,7 @@ class NoteListMain extends React.Component {
     return (
       <section className='NoteListMain'>
         <ul>
-          {/*For each note within array of filtered notes create list item*/}
           {notesForFolder.map(note =>
-            //List item will render Note component that has props equal to values of note within array
             <li key={note.id}>
               <Note
                 id={note.id}
@@ -35,7 +33,6 @@ class NoteListMain extends React.Component {
             </li>
           )}
         </ul>
-        {/*At the bottom of the list include an add-note button*/}
         <div className='NoteListMain__button-container'>
           <CircleButton
             tag={Link}
